@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/KingArthur-IT/VertebralDrawLineSimulation#readme",
   "dependencies": {
-    "three": "^0.131.3"
+    "three": "^0.131.3",
+    "three-fatline": "^0.5.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.4",
