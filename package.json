@@ -1,0 +1,29 @@
+{
+  "name": "vertebraldrawlinesimulation",
+  "version": "1.0.0",
+  "description": "medical simulation of drawing on verteblar",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c \"rollup_config.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KingArthur-IT/VertebralDrawLineSimulation.git"
+  },
+  "author": "Artem Ostapenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KingArthur-IT/VertebralDrawLineSimulation/issues"
+  },
+  "homepage": "https://github.com/KingArthur-IT/VertebralDrawLineSimulation#readme",
+  "dependencies": {
+    "three": "^0.131.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "rollup": "^2.56.2",
+    "serve": "^12.0.0"
+  }
+}
