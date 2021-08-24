@@ -1,8 +1,8 @@
 popupData = `{
     "introTitle" : "Message", 
-    "introText" : "Click the OK button to grab the pad and start moving it. Click the mouse button to place the pad in the selected location.",
-    "correctPadTitle": "Message",
-    "correctPadText": "Good work! The split pad is now positioned properly. The split pad positioned on the body closest to the surgical site will show the generator pad indicator as a green light and provide the easiest path for current to flow thus the light bulb glows brightly. Click OK to continue.",
-    "uncorrectPadTitle": "Message",
-    "uncorrectPadText": " Incorrect, please try again. The pad is either too far from the surgical site or placed improperly."
+    "introText" : "Click the OK button to grab the bovie and start moving it. Use the Bovie to burn a mark on the anterior face of the superior and inferior vertebral bodies in line with the midline-placed needle. Click the mouse button to end of mark burning.",
+    "successTitle": "Message",
+    "successText": "Good work! Mark burning is complete.",
+    "unsuccessTitle": "Message",
+    "unsuccessText": " Incomplete, please try again. "
 }`

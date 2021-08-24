@@ -10,58 +10,63 @@ let bovieObj;
 //line
 let currentLineLimits = {
 		upper: {
-			top: undefined,
-			bottom: undefined
+			top: 100.0,
+			bottom: 100.0
 		},
 		lower: {
-			top: undefined,
-			bottom: undefined
+			top: 100.0,
+			bottom: 100.0
 		}
 }
 let lineMtl, upperLine, lowerLine;
 //popup
-/*
+
 let popupPlaneMesh,
 	popupBtn = document.getElementById('popupBtn'),
-	popupTexts = JSON.parse(popupData);
-	*/
+	popupTexts = JSON.parse(popupData)
+	
 //params
 let params = {
 	sceneWidth: 850,
 	sceneHeight: 450,
-	bgSrc: './assets/img/interaction_bg.jpg',
+	bgSrc: './assets/img/interaction_mark_midline_bg.jpg',
 	popupSrc: './assets/img/popup.png',
 	isBovieLocked: false,
+	isActive: false,
+	isSuccess: undefined,
 	positionProps: {
 		step: 0.1,
-		minY: -5,
-		maxY: 1
+		maxY: 1,
+		minY: -6,
 	},
 	rotationProps: {
 		step: 0.01,
-		minXAngle: -20.0 * Math.PI / 180.0,
-		maxXAngle: 20.0 * Math.PI / 180.0
+		minXAngle: -30.0 * Math.PI / 180.0,
+		maxXAngle: 30.0 * Math.PI / 180.0
 	},
 	lineLimits: {
 		upper: {
-			top: 1,
-			bottom: -2
+			top: 1.2,
+			bottom: -1.75
 		},
 		lower: {
-			top: -3,
-			bottom: -5
+			top: -2.95,
+			bottom: -6
 		}
-	}
+	},
+	lineWidth: 3,
+	offset: 0.5
 }
 
 let objectsParams = {
 	modelPath: './assets/models/',
 	bovie: {
-		bovieObj: 'bovie.obj',
-		bovieMtl: 'bovie.mtl',
-		scale : 	new THREE.Vector3(1, 1, 1),
-		position : 	new THREE.Vector3(0, 0, 0),
-		rotation : 	new THREE.Vector3(60.0 * Math.PI / 180.0, 0.0, 0)
+		bovieObj: 'bovie_pen_01.obj',
+		bovieMtl: 'bovie_pen_01.mtl',
+		scale : 	new THREE.Vector3(1.0, 1.0, 1.0),
+		position : 	new THREE.Vector3(0.0, 1.0, 0.0),
+		rotation: new THREE.Vector3(60.0 * Math.PI / 180.0,
+			-220.0 * Math.PI / 180.0, 0.0)
 	},
 }
 
@@ -74,7 +79,7 @@ class App {
 		//scene and camera
 		scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera(40.0, params.sceneWidth / params.sceneHeight, 0.1, 5000);
-		camera.position.set(0, 0, 30);
+		camera.position.set(0, 0.0, 30);
 		//light
 		light = new THREE.AmbientLight(0xffffff);
 		scene.add(light);
@@ -113,19 +118,18 @@ class App {
 		//line
 		lineMtl = new LineMaterial({
 			color: 'black',
-			linewidth: 3, // px
-			resolution: new THREE.Vector2(850, 450) // resolution of the viewport
+			linewidth: params.lineWidth, // px
+			resolution: new THREE.Vector2(params.sceneWidth, params.sceneHeight) // resolution of the viewport
 		});
 
 		//popup
-		//createPopupPlane();
-		//addPopup();
+		createPopupPlane();
+		addPopup();
 
 		renderer.render(scene, camera);
-		//window.addEventListener( 'resize', onWindowResize, false );
 		canvas.addEventListener('mousemove', onMouseMove, false);
 		canvas.addEventListener('mousedown', onMouseDown, false);
-		//popupBtn.addEventListener('click', removePopup, false);
+		popupBtn.addEventListener('click', removePopup, false);
 
 		animate();
 	}
@@ -149,20 +153,20 @@ function onMouseMove(e) {
 			if (bovieObj.position.y > params.lineLimits.upper.bottom &&
 				bovieObj.position.y < params.lineLimits.upper.top) {
 				if (bovieObj.position.y > currentLineLimits.upper.top ||
-					currentLineLimits.upper.top === undefined)
+					currentLineLimits.upper.top === 100)
 					currentLineLimits.upper.top = bovieObj.position.y;
 				if (bovieObj.position.y < currentLineLimits.upper.bottom ||
-					currentLineLimits.upper.bottom === undefined)
+					currentLineLimits.upper.bottom === 100)
 					currentLineLimits.upper.bottom = bovieObj.position.y;
 			}
 			//lower line
 			if (bovieObj.position.y > params.lineLimits.lower.bottom &&
 				bovieObj.position.y < params.lineLimits.lower.top) {
 				if (bovieObj.position.y > currentLineLimits.lower.top ||
-					currentLineLimits.lower.top === undefined)
+					currentLineLimits.lower.top === 100)
 					currentLineLimits.lower.top = bovieObj.position.y;
 				if (bovieObj.position.y < currentLineLimits.lower.bottom ||
-					currentLineLimits.lower.bottom === undefined)
+					currentLineLimits.lower.bottom === 100)
 					currentLineLimits.lower.bottom = bovieObj.position.y;
 			}
 			bovieObj.rotation.x += movementY * params.rotationProps.step;
@@ -176,21 +180,24 @@ function onMouseMove(e) {
 			let upperGeometry = new LineGeometry();
 			let lowerGeometry = new LineGeometry();
 			
-			let posArray = [0, 0, 0, 0, 0, 0];
+			let posArray = [
+				objectsParams.bovie.position.x,
+				objectsParams.bovie.position.y,
+				objectsParams.bovie.position.z,
+				objectsParams.bovie.position.x,
+				objectsParams.bovie.position.y,
+				objectsParams.bovie.position.z];
 
-			posArray[1] = currentLineLimits.upper.top;
-			posArray[4] = currentLineLimits.upper.bottom;
+			posArray[1] = currentLineLimits.upper.top + objectsParams.bovie.position.y;
+			posArray[4] = currentLineLimits.upper.bottom + objectsParams.bovie.position.y;
 			upperGeometry.setPositions(posArray);
 			
-			posArray[1] = currentLineLimits.lower.top;
-			posArray[4] = currentLineLimits.lower.bottom;
-			lowerGeometry.setPositions(posArray); 
-
+			posArray[1] = currentLineLimits.lower.top + objectsParams.bovie.position.y;
+			posArray[4] = currentLineLimits.lower.bottom + objectsParams.bovie.position.y;
+			lowerGeometry.setPositions(posArray);
+			
 			upperLine = new Line2(upperGeometry, lineMtl);
 			lowerLine = new Line2(lowerGeometry, lineMtl);
-
-			upperLine.computeLineDistances();
-			lowerLine.computeLineDistances();
 			scene.add(upperLine)
 			scene.add(lowerLine)
 		}		
@@ -198,6 +205,7 @@ function onMouseMove(e) {
 }
 
 function onMouseDown() {
+	if (!params.isActive) return;
 	if (params.isBovieLocked) {
 		//unlock
 		document.exitPointerLock = document.exitPointerLock ||
@@ -205,6 +213,24 @@ function onMouseDown() {
 			document.webkitExitPointerLock;
 		document.exitPointerLock();
 		params.isBovieLocked = false;
+		//check
+		if (Math.abs(currentLineLimits.upper.top - params.lineLimits.upper.top) < params.offset &&
+			Math.abs(currentLineLimits.upper.bottom - params.lineLimits.upper.bottom) < params.offset &&
+			Math.abs(currentLineLimits.lower.top - params.lineLimits.lower.top) < params.offset &&
+			Math.abs(currentLineLimits.lower.bottom - params.lineLimits.lower.bottom) < params.offset)
+		{
+			params.isSuccess = true;
+			setTimeout(() => {
+				addPopup();
+			}, 1000);
+		}
+		else
+		{
+			params.isSuccess = false;
+			setTimeout(() => {
+				addPopup();
+			}, 1000);
+		}
 	}
 	else {
 		//lock
@@ -214,14 +240,6 @@ function onMouseDown() {
 		canvas.requestPointerLock();
 		params.isBovieLocked = true;
 	}	
-}
-
-
-
-function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function animate() {
@@ -238,7 +256,7 @@ function createPopupPlane() {
 		transparent: true
 	});    
 	popupPlaneMesh = new THREE.Mesh(popupPlane, popupMaterial);
-	popupPlaneMesh.scale.set(0.105, 0.105, 0.105)
+	popupPlaneMesh.scale.set(0.0235, 0.0235, 0.0235)
 	popupPlaneMesh.position.z = 10;
 }
 
@@ -249,19 +267,19 @@ function addPopup() {
 	document.getElementById('popupTitle').style.display = 'block';
 	document.getElementById('popupText').style.display = 'block';
 	popupBtn.style.display = 'block';
-	if (popupRezult === undefined) {
+	if (params.isSuccess === undefined) {
 		document.getElementById('popupTitle').value = popupTexts.introTitle;
 		document.getElementById('popupText').value = popupTexts.introText;
 		return;
 	}
-	if (popupRezult) {
-		document.getElementById('popupTitle').value = popupTexts.correctPadTitle;
-		document.getElementById('popupText').value = popupTexts.correctPadText;
+	if (params.isSuccess) {
+		document.getElementById('popupTitle').value = popupTexts.successTitle;
+		document.getElementById('popupText').value = popupTexts.successText;
 		return;
 	}
-	if (!popupRezult) {
-		document.getElementById('popupTitle').value = popupTexts.uncorrectPadTitle;
-		document.getElementById('popupText').value = popupTexts.uncorrectPadText;
+	if (!params.isSuccess) {
+		document.getElementById('popupTitle').value = popupTexts.unsuccessTitle;
+		document.getElementById('popupText').value = popupTexts.unsuccessText;
 		return;
 	}
 }
@@ -273,6 +291,9 @@ function removePopup() {
 	document.getElementById('popupTitle').style.display = 'none';
 	document.getElementById('popupText').style.display = 'none';
 	popupBtn.style.display = 'none';
+	if(!params.isSuccess) {
+		onMouseDown();
+	}
 }
 
 export default App;
