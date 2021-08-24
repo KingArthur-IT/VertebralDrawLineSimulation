@@ -44263,14 +44263,14 @@
 	let bovieObj;
 	//line
 	let currentLineLimits = {
-			upper: {
-				top: 100.0,
-				bottom: 100.0
-			},
-			lower: {
-				top: 100.0,
-				bottom: 100.0
-			}
+		upper: {
+			top: 100.0,
+			bottom: 100.0
+		},
+		lower: {
+			top: 100.0,
+			bottom: 100.0
+		}
 	};
 	let lineMtl, upperLine, lowerLine;
 	//popup
@@ -44278,7 +44278,7 @@
 	let popupPlaneMesh,
 		popupBtn = document.getElementById('popupBtn'),
 		popupTexts = JSON.parse(popupData);
-		
+
 	//params
 	let params = {
 		sceneWidth: 850,
@@ -44296,7 +44296,7 @@
 		rotationProps: {
 			step: 0.01,
 			minXAngle: -30.0 * Math.PI / 180.0,
-			maxXAngle: 30.0 * Math.PI / 180.0
+			maxXAngle: 30.0 * Math.PI / 180.0,
 		},
 		lineLimits: {
 			upper: {
@@ -44313,12 +44313,12 @@
 	};
 
 	let objectsParams = {
-		modelPath: './assets/models/',
+		modelPath: './assets/Models/',
 		bovie: {
 			bovieObj: 'bovie_pen_01.obj',
 			bovieMtl: 'bovie_pen_01.mtl',
-			scale : 	new Vector3(1.0, 1.0, 1.0),
-			position : 	new Vector3(0.0, 1.0, 0.0),
+			scale: new Vector3(1.0, 1.0, 1.0),
+			position: new Vector3(0.0, 1.0, 0.0),
 			rotation: new Vector3(60.0 * Math.PI / 180.0,
 				-220.0 * Math.PI / 180.0, 0.0)
 		},
@@ -44327,9 +44327,9 @@
 	class App {
 		init() {
 			canvas = document.getElementById('canvas');
-			canvas.setAttribute('width', 	params.sceneWidth);
-			canvas.setAttribute('height', 	params.sceneHeight);
-			
+			canvas.setAttribute('width', params.sceneWidth);
+			canvas.setAttribute('height', params.sceneHeight);
+
 			//scene and camera
 			scene = new Scene();
 			camera = new PerspectiveCamera(40.0, params.sceneWidth / params.sceneHeight, 0.1, 5000);
@@ -44337,7 +44337,7 @@
 			//light
 			light = new AmbientLight(0xffffff);
 			scene.add(light);
-			
+
 			//renderer
 			renderer = new WebGLRenderer({ canvas: canvas, alpha: true });
 			renderer.setClearColor(0xffffff);
@@ -44352,7 +44352,7 @@
 			//objects		
 			bovieObj = new Object3D();
 			let mtlLoader = new MTLLoader();
-			mtlLoader.setPath(objectsParams.modelPath);		
+			mtlLoader.setPath(objectsParams.modelPath);
 
 			//load patient body
 			mtlLoader.load(objectsParams.bovie.bovieMtl, function (materials) {
@@ -44367,8 +44367,8 @@
 					bovieObj.add(object);
 					scene.add(bovieObj);
 				});
-			});				
-			
+			});
+
 			//line
 			lineMtl = new LineMaterial({
 				color: 'black',
@@ -44433,7 +44433,7 @@
 
 				let upperGeometry = new LineGeometry();
 				let lowerGeometry = new LineGeometry();
-				
+
 				let posArray = [
 					objectsParams.bovie.position.x,
 					objectsParams.bovie.position.y,
@@ -44445,17 +44445,17 @@
 				posArray[1] = currentLineLimits.upper.top + objectsParams.bovie.position.y;
 				posArray[4] = currentLineLimits.upper.bottom + objectsParams.bovie.position.y;
 				upperGeometry.setPositions(posArray);
-				
+
 				posArray[1] = currentLineLimits.lower.top + objectsParams.bovie.position.y;
 				posArray[4] = currentLineLimits.lower.bottom + objectsParams.bovie.position.y;
 				lowerGeometry.setPositions(posArray);
-				
+
 				upperLine = new Line2(upperGeometry, lineMtl);
 				lowerLine = new Line2(lowerGeometry, lineMtl);
 				scene.add(upperLine);
 				scene.add(lowerLine);
-			}		
-		}	
+			}
+		}
 	}
 
 	function onMouseDown() {
@@ -44471,15 +44471,13 @@
 			if (Math.abs(currentLineLimits.upper.top - params.lineLimits.upper.top) < params.offset &&
 				Math.abs(currentLineLimits.upper.bottom - params.lineLimits.upper.bottom) < params.offset &&
 				Math.abs(currentLineLimits.lower.top - params.lineLimits.lower.top) < params.offset &&
-				Math.abs(currentLineLimits.lower.bottom - params.lineLimits.lower.bottom) < params.offset)
-			{
+				Math.abs(currentLineLimits.lower.bottom - params.lineLimits.lower.bottom) < params.offset) {
 				params.isSuccess = true;
 				setTimeout(() => {
 					addPopup();
 				}, 1000);
 			}
-			else
-			{
+			else {
 				params.isSuccess = false;
 				setTimeout(() => {
 					addPopup();
@@ -44493,7 +44491,7 @@
 				canvas.webkitRequestPointerLock;
 			canvas.requestPointerLock();
 			params.isBovieLocked = true;
-		}	
+		}
 	}
 
 	function animate() {
@@ -44506,9 +44504,10 @@
 		const loader = new TextureLoader();
 		const popupMaterial = new MeshBasicMaterial({
 			map: loader.load(params.popupSrc, function (texture) {
-				texture.minFilter = LinearFilter; }),
+				texture.minFilter = LinearFilter;
+			}),
 			transparent: true
-		});    
+		});
 		popupPlaneMesh = new Mesh(popupPlane, popupMaterial);
 		popupPlaneMesh.scale.set(0.0235, 0.0235, 0.0235);
 		popupPlaneMesh.position.z = 10;
@@ -44545,7 +44544,7 @@
 		document.getElementById('popupTitle').style.display = 'none';
 		document.getElementById('popupText').style.display = 'none';
 		popupBtn.style.display = 'none';
-		if(!params.isSuccess) {
+		if (!params.isSuccess) {
 			onMouseDown();
 		}
 	}

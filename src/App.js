@@ -9,14 +9,14 @@ let canvas, camera, scene, light, renderer;
 let bovieObj;
 //line
 let currentLineLimits = {
-		upper: {
-			top: 100.0,
-			bottom: 100.0
-		},
-		lower: {
-			top: 100.0,
-			bottom: 100.0
-		}
+	upper: {
+		top: 100.0,
+		bottom: 100.0
+	},
+	lower: {
+		top: 100.0,
+		bottom: 100.0
+	}
 }
 let lineMtl, upperLine, lowerLine;
 //popup
@@ -24,7 +24,7 @@ let lineMtl, upperLine, lowerLine;
 let popupPlaneMesh,
 	popupBtn = document.getElementById('popupBtn'),
 	popupTexts = JSON.parse(popupData)
-	
+
 //params
 let params = {
 	sceneWidth: 850,
@@ -42,7 +42,7 @@ let params = {
 	rotationProps: {
 		step: 0.01,
 		minXAngle: -30.0 * Math.PI / 180.0,
-		maxXAngle: 30.0 * Math.PI / 180.0
+		maxXAngle: 30.0 * Math.PI / 180.0,
 	},
 	lineLimits: {
 		upper: {
@@ -59,12 +59,12 @@ let params = {
 }
 
 let objectsParams = {
-	modelPath: './assets/models/',
+	modelPath: './assets/Models/',
 	bovie: {
 		bovieObj: 'bovie_pen_01.obj',
 		bovieMtl: 'bovie_pen_01.mtl',
-		scale : 	new THREE.Vector3(1.0, 1.0, 1.0),
-		position : 	new THREE.Vector3(0.0, 1.0, 0.0),
+		scale: new THREE.Vector3(1.0, 1.0, 1.0),
+		position: new THREE.Vector3(0.0, 1.0, 0.0),
 		rotation: new THREE.Vector3(60.0 * Math.PI / 180.0,
 			-220.0 * Math.PI / 180.0, 0.0)
 	},
@@ -73,9 +73,9 @@ let objectsParams = {
 class App {
 	init() {
 		canvas = document.getElementById('canvas');
-		canvas.setAttribute('width', 	params.sceneWidth);
-		canvas.setAttribute('height', 	params.sceneHeight);
-		
+		canvas.setAttribute('width', params.sceneWidth);
+		canvas.setAttribute('height', params.sceneHeight);
+
 		//scene and camera
 		scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera(40.0, params.sceneWidth / params.sceneHeight, 0.1, 5000);
@@ -83,7 +83,7 @@ class App {
 		//light
 		light = new THREE.AmbientLight(0xffffff);
 		scene.add(light);
-		
+
 		//renderer
 		renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
 		renderer.setClearColor(0xffffff);
@@ -98,7 +98,7 @@ class App {
 		//objects		
 		bovieObj = new THREE.Object3D();
 		let mtlLoader = new MTLLoader();
-		mtlLoader.setPath(objectsParams.modelPath);		
+		mtlLoader.setPath(objectsParams.modelPath);
 
 		//load patient body
 		mtlLoader.load(objectsParams.bovie.bovieMtl, function (materials) {
@@ -113,8 +113,8 @@ class App {
 				bovieObj.add(object);
 				scene.add(bovieObj);
 			});
-		});				
-		
+		});
+
 		//line
 		lineMtl = new LineMaterial({
 			color: 'black',
@@ -179,7 +179,7 @@ function onMouseMove(e) {
 
 			let upperGeometry = new LineGeometry();
 			let lowerGeometry = new LineGeometry();
-			
+
 			let posArray = [
 				objectsParams.bovie.position.x,
 				objectsParams.bovie.position.y,
@@ -191,17 +191,17 @@ function onMouseMove(e) {
 			posArray[1] = currentLineLimits.upper.top + objectsParams.bovie.position.y;
 			posArray[4] = currentLineLimits.upper.bottom + objectsParams.bovie.position.y;
 			upperGeometry.setPositions(posArray);
-			
+
 			posArray[1] = currentLineLimits.lower.top + objectsParams.bovie.position.y;
 			posArray[4] = currentLineLimits.lower.bottom + objectsParams.bovie.position.y;
 			lowerGeometry.setPositions(posArray);
-			
+
 			upperLine = new Line2(upperGeometry, lineMtl);
 			lowerLine = new Line2(lowerGeometry, lineMtl);
 			scene.add(upperLine)
 			scene.add(lowerLine)
-		}		
-	}	
+		}
+	}
 }
 
 function onMouseDown() {
@@ -217,15 +217,13 @@ function onMouseDown() {
 		if (Math.abs(currentLineLimits.upper.top - params.lineLimits.upper.top) < params.offset &&
 			Math.abs(currentLineLimits.upper.bottom - params.lineLimits.upper.bottom) < params.offset &&
 			Math.abs(currentLineLimits.lower.top - params.lineLimits.lower.top) < params.offset &&
-			Math.abs(currentLineLimits.lower.bottom - params.lineLimits.lower.bottom) < params.offset)
-		{
+			Math.abs(currentLineLimits.lower.bottom - params.lineLimits.lower.bottom) < params.offset) {
 			params.isSuccess = true;
 			setTimeout(() => {
 				addPopup();
 			}, 1000);
 		}
-		else
-		{
+		else {
 			params.isSuccess = false;
 			setTimeout(() => {
 				addPopup();
@@ -239,7 +237,7 @@ function onMouseDown() {
 			canvas.webkitRequestPointerLock;
 		canvas.requestPointerLock();
 		params.isBovieLocked = true;
-	}	
+	}
 }
 
 function animate() {
@@ -252,9 +250,10 @@ function createPopupPlane() {
 	const loader = new THREE.TextureLoader();
 	const popupMaterial = new THREE.MeshBasicMaterial({
 		map: loader.load(params.popupSrc, function (texture) {
-			texture.minFilter = THREE.LinearFilter; }),
+			texture.minFilter = THREE.LinearFilter;
+		}),
 		transparent: true
-	});    
+	});
 	popupPlaneMesh = new THREE.Mesh(popupPlane, popupMaterial);
 	popupPlaneMesh.scale.set(0.0235, 0.0235, 0.0235)
 	popupPlaneMesh.position.z = 10;
@@ -291,7 +290,7 @@ function removePopup() {
 	document.getElementById('popupTitle').style.display = 'none';
 	document.getElementById('popupText').style.display = 'none';
 	popupBtn.style.display = 'none';
-	if(!params.isSuccess) {
+	if (!params.isSuccess) {
 		onMouseDown();
 	}
 }
