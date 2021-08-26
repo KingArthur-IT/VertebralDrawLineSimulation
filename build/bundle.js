@@ -44400,7 +44400,7 @@
 				e.mozMovementY ||
 				e.webkitMovementY ||
 				0;
-			if (Math.abs(movementY) > 2)
+			if (Math.abs(movementY) > 1)
 				return;
 			let newYPosition = bovieObj.position.y - movementY * params.positionProps.step;
 			if (newYPosition < params.positionProps.maxY && newYPosition > params.positionProps.minY) {
@@ -44427,7 +44427,6 @@
 						let drawedLine = params.lineLimits.lower.top - bovieObj.position.y;
 						let perspectiveOffset = 0.85 * drawedLine / lineWidth;
 						currentLineLimits.lower.bottom = bovieObj.position.y - perspectiveOffset;
-						console.log(currentLineLimits.lower.bottom);
 						}
 				}
 				bovieObj.rotation.x += movementY * params.rotationProps.step;
