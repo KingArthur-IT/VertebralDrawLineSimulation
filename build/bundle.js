@@ -44290,8 +44290,8 @@
 		isSuccess: undefined,
 		positionProps: {
 			step: 0.1,
-			maxY: 1,
-			minY: -6,
+			maxY: 0.0,
+			minY: -6.2,
 		},
 		rotationProps: {
 			step: 0.01,
@@ -44300,12 +44300,12 @@
 		},
 		lineLimits: {
 			upper: {
-				top: 1.2,
-				bottom: -1.75
+				top: 2.0,
+				bottom: -2.75
 			},
 			lower: {
-				top: -2.95,
-				bottom: -6
+				top: -4.0,
+				bottom: -6.5
 			}
 		},
 		lineWidth: 3,
@@ -44318,7 +44318,7 @@
 			bovieObj: 'bovie_pen_01.obj',
 			bovieMtl: 'bovie_pen_01.mtl',
 			scale: new Vector3(1.0, 1.0, 1.0),
-			position: new Vector3(0.0, 1.0, 0.0),
+			position: new Vector3(0.0, 2.0, 0.0),
 			rotation: new Vector3(60.0 * Math.PI / 180.0,
 				-220.0 * Math.PI / 180.0, 0.0)
 		},
@@ -44400,6 +44400,8 @@
 				e.mozMovementY ||
 				e.webkitMovementY ||
 				0;
+			if (Math.abs(movementY) > 2)
+				return;
 			let newYPosition = bovieObj.position.y - movementY * params.positionProps.step;
 			if (newYPosition < params.positionProps.maxY && newYPosition > params.positionProps.minY) {
 				bovieObj.position.y -= movementY * params.positionProps.step;
@@ -44420,8 +44422,12 @@
 						currentLineLimits.lower.top === 100)
 						currentLineLimits.lower.top = bovieObj.position.y;
 					if (bovieObj.position.y < currentLineLimits.lower.bottom ||
-						currentLineLimits.lower.bottom === 100)
-						currentLineLimits.lower.bottom = bovieObj.position.y;
+						currentLineLimits.lower.bottom === 100) {
+						let lineWidth = params.lineLimits.lower.top - params.lineLimits.lower.bottom;
+						let drawedLine = params.lineLimits.lower.top - bovieObj.position.y;
+						let perspectiveOffset = 0.7 * drawedLine / lineWidth;
+						currentLineLimits.lower.bottom = bovieObj.position.y - perspectiveOffset;
+						}
 				}
 				bovieObj.rotation.x += movementY * params.rotationProps.step;
 				let newYAngle = bovieObj.rotation.y + movementX * params.rotationProps.step;
@@ -44515,6 +44521,12 @@
 
 	function addPopup() {
 		scene.add(popupPlaneMesh);
+		//unlock
+		document.exitPointerLock = document.exitPointerLock ||
+			document.mozExitPointerLock ||
+			document.webkitExitPointerLock;
+		document.exitPointerLock();
+		params.isBovieLocked = false;
 		params.isActive = false;
 		//interface
 		document.getElementById('popupTitle').style.display = 'block';

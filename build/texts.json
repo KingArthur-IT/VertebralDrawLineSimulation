@@ -1,8 +1,8 @@
 popupData = `{
     "introTitle" : "Message", 
-    "introText" : "Click the OK button to grab the bovie and start moving it. Use the Bovie to burn a mark on the anterior face of the superior and inferior vertebral bodies in line with the midline-placed needle. Click the mouse button to end of mark burning.",
+    "introText" : "Click the OK button to grab the Bovie tool and move it down to burn a mark on the anterior face of the superior and inferior vertebral bodies in line with the midline-placed needle. Click the mouse button when it is done.",
     "successTitle": "Message",
-    "successText": "Good work! Mark burning is complete.",
+    "successText": "Good job! The mark is in place now.",
     "unsuccessTitle": "Message",
     "unsuccessText": " Incomplete, please try again. "
 }`
