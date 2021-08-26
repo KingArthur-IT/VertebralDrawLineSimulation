@@ -44300,12 +44300,12 @@
 		},
 		lineLimits: {
 			upper: {
-				top: 2.0,
+				top: 0.0,
 				bottom: -2.75
 			},
 			lower: {
 				top: -4.0,
-				bottom: -6.5
+				bottom: -6.2
 			}
 		},
 		lineWidth: 3,
@@ -44425,8 +44425,9 @@
 						currentLineLimits.lower.bottom === 100) {
 						let lineWidth = params.lineLimits.lower.top - params.lineLimits.lower.bottom;
 						let drawedLine = params.lineLimits.lower.top - bovieObj.position.y;
-						let perspectiveOffset = 0.7 * drawedLine / lineWidth;
+						let perspectiveOffset = 0.85 * drawedLine / lineWidth;
 						currentLineLimits.lower.bottom = bovieObj.position.y - perspectiveOffset;
+						console.log(currentLineLimits.lower.bottom);
 						}
 				}
 				bovieObj.rotation.x += movementY * params.rotationProps.step;
@@ -44477,7 +44478,7 @@
 			if (Math.abs(currentLineLimits.upper.top - params.lineLimits.upper.top) < params.offset &&
 				Math.abs(currentLineLimits.upper.bottom - params.lineLimits.upper.bottom) < params.offset &&
 				Math.abs(currentLineLimits.lower.top - params.lineLimits.lower.top) < params.offset &&
-				Math.abs(currentLineLimits.lower.bottom - params.lineLimits.lower.bottom) < params.offset) {
+				currentLineLimits.lower.bottom < params.lineLimits.lower.bottom) {
 				params.isSuccess = true;
 				setTimeout(() => {
 					addPopup();
