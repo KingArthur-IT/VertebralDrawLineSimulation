@@ -44,18 +44,7 @@ let params = {
 		minXAngle: -30.0 * Math.PI / 180.0,
 		maxXAngle: 30.0 * Math.PI / 180.0,
 	},
-	lineLimits: {
-		upper: {
-			top: 0.0,
-			bottom: -2.75
-		},
-		lower: {
-			top: -4.0,
-			bottom: -6.2
-		}
-	},
-	lineWidth: 3,
-	offset: 0.5
+	
 }
 
 let objectsParams = {
@@ -68,6 +57,21 @@ let objectsParams = {
 		rotation: new THREE.Vector3(60.0 * Math.PI / 180.0,
 			-220.0 * Math.PI / 180.0, 0.0)
 	},
+	line: {
+		lineLimits: {
+		upper: {
+			top: 0.0,
+			bottom: -2.75
+		},
+		lower: {
+			top: -4.0,
+			bottom: -6.2
+			}
+		},
+		lineWidth: 3,
+		maxOffset: 0.5,
+		perspectiveEdit: 3.0
+	}
 }
 
 class App {
@@ -118,7 +122,7 @@ class App {
 		//line
 		lineMtl = new LineMaterial({
 			color: 'black',
-			linewidth: params.lineWidth, // px
+			linewidth: objectsParams.line.lineWidth, // px
 			resolution: new THREE.Vector2(params.sceneWidth, params.sceneHeight) // resolution of the viewport
 		});
 
@@ -152,8 +156,8 @@ function onMouseMove(e) {
 		if (newYPosition < params.positionProps.maxY && newYPosition > params.positionProps.minY) {
 			bovieObj.position.y -= movementY * params.positionProps.step;
 			//upper line
-			if (bovieObj.position.y > params.lineLimits.upper.bottom &&
-				bovieObj.position.y < params.lineLimits.upper.top) {
+			if (bovieObj.position.y > objectsParams.line.lineLimits.upper.bottom &&
+				bovieObj.position.y < objectsParams.line.lineLimits.upper.top) {
 				if (bovieObj.position.y > currentLineLimits.upper.top ||
 					currentLineLimits.upper.top === 100)
 					currentLineLimits.upper.top = bovieObj.position.y;
@@ -162,17 +166,14 @@ function onMouseMove(e) {
 					currentLineLimits.upper.bottom = bovieObj.position.y;
 			}
 			//lower line
-			if (bovieObj.position.y > params.lineLimits.lower.bottom &&
-				bovieObj.position.y < params.lineLimits.lower.top) {
+			if (bovieObj.position.y > objectsParams.line.lineLimits.lower.bottom &&
+				bovieObj.position.y < objectsParams.line.lineLimits.lower.top) {
 				if (bovieObj.position.y > currentLineLimits.lower.top ||
 					currentLineLimits.lower.top === 100)
 					currentLineLimits.lower.top = bovieObj.position.y;
 				if (bovieObj.position.y < currentLineLimits.lower.bottom ||
 					currentLineLimits.lower.bottom === 100) {
-					let lineWidth = params.lineLimits.lower.top - params.lineLimits.lower.bottom;
-					let drawedLine = params.lineLimits.lower.top - bovieObj.position.y;
-					let perspectiveOffset = 0.85 * drawedLine / lineWidth;
-					currentLineLimits.lower.bottom = bovieObj.position.y - perspectiveOffset;
+						currentLineLimits.lower.bottom = bovieObj.position.y;
 					}
 			}
 			bovieObj.rotation.x += movementY * params.rotationProps.step;
@@ -192,7 +193,7 @@ function onMouseMove(e) {
 				objectsParams.bovie.position.z,
 				objectsParams.bovie.position.x,
 				objectsParams.bovie.position.y,
-				objectsParams.bovie.position.z];
+				objectsParams.bovie.position.z + objectsParams.line.perspectiveEdit];
 
 			posArray[1] = currentLineLimits.upper.top + objectsParams.bovie.position.y;
 			posArray[4] = currentLineLimits.upper.bottom + objectsParams.bovie.position.y;
@@ -220,10 +221,10 @@ function onMouseDown() {
 		document.exitPointerLock();
 		params.isBovieLocked = false;
 		//check
-		if (Math.abs(currentLineLimits.upper.top - params.lineLimits.upper.top) < params.offset &&
-			Math.abs(currentLineLimits.upper.bottom - params.lineLimits.upper.bottom) < params.offset &&
-			Math.abs(currentLineLimits.lower.top - params.lineLimits.lower.top) < params.offset &&
-			currentLineLimits.lower.bottom < params.lineLimits.lower.bottom) {
+		if (Math.abs(currentLineLimits.upper.top - objectsParams.line.lineLimits.upper.top) < objectsParams.line.maxOffset &&
+			Math.abs(currentLineLimits.upper.bottom - objectsParams.line.lineLimits.upper.bottom) < objectsParams.line.maxOffset &&
+			Math.abs(currentLineLimits.lower.top - objectsParams.line.lineLimits.lower.top) < objectsParams.line.maxOffset &&
+			Math.abs(currentLineLimits.lower.bottom - objectsParams.line.lineLimits.lower.bottom) < objectsParams.line.maxOffset) {
 			params.isSuccess = true;
 			setTimeout(() => {
 				addPopup();
