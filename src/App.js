@@ -150,8 +150,8 @@ function onMouseMove(e) {
 			e.mozMovementY ||
 			e.webkitMovementY ||
 			0;
-		if (Math.abs(movementY) > 1)
-			return;
+		if (Math.abs(movementY) > 2)
+			movementY = Math.sign(movementY) * 2.0;
 		let newYPosition = bovieObj.position.y - movementY * params.positionProps.step;
 		if (newYPosition < params.positionProps.maxY && newYPosition > params.positionProps.minY) {
 			bovieObj.position.y -= movementY * params.positionProps.step;
