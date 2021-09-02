@@ -44306,7 +44306,7 @@
 		bovie: {
 			bovieObj: 'bovie_pen_01.obj',
 			bovieMtl: 'bovie_pen_01.mtl',
-			scale: new Vector3(1.5, 1.5, 1.5),
+			scale: new Vector3(2.0, 2.0, 2.0),
 			position: new Vector3(0.0, 2.0, 0.0),
 			rotation: new Vector3(70.0 * Math.PI / 180.0,
 				-220.0 * Math.PI / 180.0, 0.0)

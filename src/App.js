@@ -52,7 +52,7 @@ let objectsParams = {
 	bovie: {
 		bovieObj: 'bovie_pen_01.obj',
 		bovieMtl: 'bovie_pen_01.mtl',
-		scale: new THREE.Vector3(1.5, 1.5, 1.5),
+		scale: new THREE.Vector3(2.0, 2.0, 2.0),
 		position: new THREE.Vector3(0.0, 2.0, 0.0),
 		rotation: new THREE.Vector3(70.0 * Math.PI / 180.0,
 			-220.0 * Math.PI / 180.0, 0.0)
