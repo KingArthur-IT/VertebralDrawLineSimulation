@@ -52,9 +52,9 @@ let objectsParams = {
 	bovie: {
 		bovieObj: 'bovie_pen_01.obj',
 		bovieMtl: 'bovie_pen_01.mtl',
-		scale: new THREE.Vector3(1.0, 1.0, 1.0),
+		scale: new THREE.Vector3(1.5, 1.5, 1.5),
 		position: new THREE.Vector3(0.0, 2.0, 0.0),
-		rotation: new THREE.Vector3(60.0 * Math.PI / 180.0,
+		rotation: new THREE.Vector3(70.0 * Math.PI / 180.0,
 			-220.0 * Math.PI / 180.0, 0.0)
 	},
 	line: {
@@ -262,8 +262,8 @@ function createPopupPlane() {
 		transparent: true
 	});
 	popupPlaneMesh = new THREE.Mesh(popupPlane, popupMaterial);
-	popupPlaneMesh.scale.set(0.0235, 0.0235, 0.0235)
-	popupPlaneMesh.position.z = 10;
+	popupPlaneMesh.scale.set(0.0116, 0.0116, 0.0116);
+	popupPlaneMesh.position.z = 20;
 }
 
 function addPopup() {

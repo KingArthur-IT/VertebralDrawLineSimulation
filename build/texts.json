@@ -1,8 +1,8 @@
 popupData = `{
     "introTitle" : "Message", 
-    "introText" : "Click the OK button to grab the Bovie tool and move it down to burn a mark on the anterior face of the superior and inferior vertebral bodies in line with the midline-placed needle. Click the mouse button when it is done.",
+    "introText" : "Click the OK button to grab the Bovie and burn marks on the midline of the vertebral bodies (superior and inferior to the operative level). Click to confirm.",
     "successTitle": "Message",
-    "successText": "Good job! The mark is in place now.",
+    "successText": "The vertebral bodies are now marked at midline. These marks will serve as a reference for central, orthogonal orientation of instrumentation going forward.",
     "unsuccessTitle": "Message",
     "unsuccessText": " Incomplete, please try again. "
 }`
