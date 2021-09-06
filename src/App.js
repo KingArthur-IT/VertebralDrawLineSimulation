@@ -41,8 +41,8 @@ let params = {
 	},
 	rotationProps: {
 		step: 0.01,
-		minXAngle: -30.0 * Math.PI / 180.0,
-		maxXAngle: 30.0 * Math.PI / 180.0,
+		minXAngle: -18.0 * Math.PI / 180.0,
+		maxXAngle: 18.0 * Math.PI / 180.0,
 	},
 	
 }
@@ -330,6 +330,7 @@ function removePopup() {
 
 function touch_start_handler(e) {
 	if (!params.isActive) return;
+	params.isBovieLocked = false;
 	let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
 	let touch = evt.touches[0] || evt.changedTouches[0];
 	
