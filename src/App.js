@@ -330,6 +330,7 @@ function removePopup() {
 }
 
 function touch_start_handler(e) {
+	e.preventDefault();
 	if (!params.isActive) return;
 	params.isBovieLocked = false;
 	let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
@@ -347,6 +348,7 @@ function touch_start_handler(e) {
 }
 
 function touch_move_handler(e) {
+	e.preventDefault();
 	let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
 	let touch = evt.touches[0] || evt.changedTouches[0];
 	if (params.isBovieLocked) {
