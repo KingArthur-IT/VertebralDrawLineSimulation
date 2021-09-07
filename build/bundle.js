@@ -44329,7 +44329,7 @@
 	};
 
 	let touchParams = {
-		objectCenter: { x: 425.0, y: 0.0 },
+		objectCenter: { x: 425.0, y: -25.0 },
 		radius: 50,
 		limits: { min: 0.0, max: 450.0 },
 		mouseDown: {x: 0.0, y: 0.0}
@@ -44611,7 +44611,7 @@
 					(touchParams.limits.max - touchParams.limits.min) + params.positionProps.minY;
 				bovieObj.position.y = newYPosition;
 				
-				let squeeze = 0.5;
+				let squeeze = 1.0;
 				bovieObj.rotation.x = (10.0 * touch.pageY / touchParams.limits.max) * Math.PI / 180.0;
 				let newYAngle = bovieObj.rotation.y + (touch.pageX - 0.5 * params.sceneWidth) / 100.0;
 				if (newYAngle > squeeze * params.rotationProps.minXAngle && newYAngle < squeeze * params.rotationProps.maxXAngle)
@@ -44632,9 +44632,10 @@
 		if (params.isBovieLocked) {
 			CheckDrawedLine();
 			params.isBovieLocked = false;
+			touchParams.objectCenter.x = 340.0 + ((bovieObj.rotation.y + 0.1) / 0.2) * 160.0;
+			//touchParams.objectCenter.x += parseInt(touch.pageX) - touchParams.mouseDown.x;
 			touchParams.objectCenter.y += parseInt(touch.pageY) - touchParams.mouseDown.y;
-			touchParams.objectCenter.x += parseInt(touch.pageX) - touchParams.mouseDown.x;
-			console.log(touchParams.objectCenter.x, touchParams.objectCenter.x);
+			console.log(touchParams.objectCenter.x, touchParams.objectCenter.y);
 			touchParams.mouseDown.x = 0.0;
 			touchParams.mouseDown.y = 0.0;
 		}
