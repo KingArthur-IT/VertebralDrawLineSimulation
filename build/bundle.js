@@ -44343,7 +44343,7 @@
 
 			//scene and camera
 			scene = new Scene();
-			scene.background = new Color('0xcccccc');
+			scene.background = new Color(0xcccccc);
 			camera = new PerspectiveCamera(40.0, params.sceneWidth / params.sceneHeight, 0.1, 5000);
 			camera.position.set(0, 0.0, 30);
 			//light

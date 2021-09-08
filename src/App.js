@@ -89,7 +89,7 @@ class App {
 
 		//scene and camera
 		scene = new THREE.Scene();
-		scene.background = new THREE.Color('0xcccccc');
+		scene.background = new THREE.Color(0xcccccc);
 		camera = new THREE.PerspectiveCamera(40.0, params.sceneWidth / params.sceneHeight, 0.1, 5000);
 		camera.position.set(0, 0.0, 30);
 		//light
