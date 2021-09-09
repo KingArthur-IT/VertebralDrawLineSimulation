@@ -128,12 +128,12 @@ class App {
 		});
 
 		//line
-		/*
+		
 		lineMtl = new LineMaterial({
 			color: 'black',
 			linewidth: objectsParams.line.lineWidth, // px
 			resolution: new THREE.Vector2(params.sceneWidth, params.sceneHeight) // resolution of the viewport
-		});*/
+		});
 
 		//popup
 		createPopupPlane();
@@ -144,9 +144,9 @@ class App {
 		canvas.addEventListener('mousedown', onMouseDown, false);
 		popupBtn.addEventListener('click', removePopup, false);
 
-		//canvas.addEventListener("touchstart",   touch_start_handler);
-    	//canvas.addEventListener("touchmove",    touch_move_handler);    
-    	//canvas.addEventListener("touchend",     touch_up_handler);
+		canvas.addEventListener("touchstart",   touch_start_handler);
+    	canvas.addEventListener("touchmove",    touch_move_handler);    
+    	canvas.addEventListener("touchend",     touch_up_handler);
 
 		animate();
 	}
