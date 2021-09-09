@@ -44328,13 +44328,6 @@
 		}
 	};
 
-	let touchParams = {
-		objectCenter: { x: 425.0, y: -25.0 },
-		radius: 50,
-		limits: { min: 0.0, max: 450.0 },
-		mouseDown: {x: 0.0, y: 0.0}
-	};
-
 	class App {
 		init() {
 			canvas = document.getElementById('canvas');
@@ -44382,11 +44375,12 @@
 			});
 
 			//line
+			/*
 			lineMtl = new LineMaterial({
 				color: 'black',
 				linewidth: objectsParams.line.lineWidth, // px
-				resolution: new Vector2(params.sceneWidth, params.sceneHeight) // resolution of the viewport
-			});
+				resolution: new THREE.Vector2(params.sceneWidth, params.sceneHeight) // resolution of the viewport
+			});*/
 
 			//popup
 			createPopupPlane();
@@ -44397,9 +44391,9 @@
 			canvas.addEventListener('mousedown', onMouseDown, false);
 			popupBtn.addEventListener('click', removePopup, false);
 
-			canvas.addEventListener("touchstart",   touch_start_handler);
-	    	canvas.addEventListener("touchmove",    touch_move_handler);    
-	    	canvas.addEventListener("touchend",     touch_up_handler);
+			//canvas.addEventListener("touchstart",   touch_start_handler);
+	    	//canvas.addEventListener("touchmove",    touch_move_handler);    
+	    	//canvas.addEventListener("touchend",     touch_up_handler);
 
 			animate();
 		}
@@ -44581,66 +44575,6 @@
 		popupBtn.style.display = 'none';
 		if (!params.isSuccess) {
 			onMouseDown();
-		}
-	}
-
-	function touch_start_handler(e) {
-		e.preventDefault();
-		if (!params.isActive) return;
-		params.isBovieLocked = false;
-		let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
-		let touch = evt.touches[0] || evt.changedTouches[0];
-		
-		let dist = (parseInt(touch.pageX) - touchParams.objectCenter.x) *
-			(parseInt(touch.pageX) - touchParams.objectCenter.x) +
-			(parseInt(touch.pageY) - touchParams.objectCenter.y) *
-			(parseInt(touch.pageY) - touchParams.objectCenter.y);
-		if (Math.sqrt(dist) < touchParams.radius) {
-			params.isBovieLocked = true;
-			touchParams.mouseDown.x = parseInt(touch.pageX);
-			touchParams.mouseDown.y = parseInt(touch.pageY);
-		}
-	}
-
-	function touch_move_handler(e) {
-		e.preventDefault();
-		let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
-		let touch = evt.touches[0] || evt.changedTouches[0];
-		if (params.isBovieLocked) {
-			let newMouseY = params.sceneHeight - parseInt(touch.pageY);
-			if (newMouseY < touchParams.limits.max && newMouseY > touchParams.limits.min) {
-				let newYPosition = (newMouseY - touchParams.limits.min) *
-					(params.positionProps.maxY - params.positionProps.minY) /
-					(touchParams.limits.max - touchParams.limits.min) + params.positionProps.minY;
-				bovieObj.position.y = newYPosition;
-				
-				let squeeze = 1.0;
-				bovieObj.rotation.x = (10.0 * touch.pageY / touchParams.limits.max) * Math.PI / 180.0;
-				let newYAngle = bovieObj.rotation.y + (touch.pageX - 0.5 * params.sceneWidth) / 100.0;
-				if (newYAngle > squeeze * params.rotationProps.minXAngle && newYAngle < squeeze * params.rotationProps.maxXAngle)
-				{
-					bovieObj.rotation.y = (touch.pageX - 0.5 * params.sceneWidth) / 200.0;
-					//touchParams.objectCenter.y = parseInt(touch.pageY);
-					//touchParams.objectCenter.x = parseInt(touch.pageX);
-				}
-				
-				DrawLine();
-			}
-		}
-	}
-
-	function touch_up_handler(e) {
-		let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
-		let touch = evt.touches[0] || evt.changedTouches[0];
-		if (params.isBovieLocked) {
-			CheckDrawedLine();
-			params.isBovieLocked = false;
-			touchParams.objectCenter.x = 340.0 + ((bovieObj.rotation.y + 0.1) / 0.2) * 160.0;
-			//touchParams.objectCenter.x += parseInt(touch.pageX) - touchParams.mouseDown.x;
-			touchParams.objectCenter.y += parseInt(touch.pageY) - touchParams.mouseDown.y;
-			console.log(touchParams.objectCenter.x, touchParams.objectCenter.y);
-			touchParams.mouseDown.x = 0.0;
-			touchParams.mouseDown.y = 0.0;
 		}
 	}
 
