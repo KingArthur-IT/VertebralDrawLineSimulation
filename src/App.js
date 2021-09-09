@@ -291,11 +291,6 @@ function createPopupPlane() {
 
 function addPopup() {
 	scene.add(popupPlaneMesh);
-	//unlock
-	document.exitPointerLock = document.exitPointerLock ||
-		document.mozExitPointerLock ||
-		document.webkitExitPointerLock;
-	document.exitPointerLock();
 	params.isBovieLocked = false;
 	params.isActive = false;
 	//interface
