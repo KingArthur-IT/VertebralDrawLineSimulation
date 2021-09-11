@@ -44417,8 +44417,10 @@
 				e.mozMovementY ||
 				e.webkitMovementY ||
 				0;
-			if (Math.abs(movementY) > 2)
-				movementY = Math.sign(movementY) * 2.0;
+			if (Math.abs(movementY) > 0.5)
+				movementY = Math.sign(movementY) * 0.5;
+			if (Math.abs(movementX) > 1.0)
+				movementX = Math.sign(movementX) * 1.0;
 			let newYPosition = bovieObj.position.y - movementY * params.positionProps.step;
 			if (newYPosition < params.positionProps.maxY && newYPosition > params.positionProps.minY) {
 				bovieObj.position.y -= movementY * params.positionProps.step;
@@ -44487,6 +44489,8 @@
 
 	function onMouseDown() {
 		if (!params.isActive) return;
+		if (bovieObj.position.y < -2.3 && bovieObj.position.y > -4.0)
+			return;
 		if (params.isBovieLocked) {
 			//unlock
 			document.exitPointerLock = document.exitPointerLock ||
