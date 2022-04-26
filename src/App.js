@@ -75,8 +75,8 @@ let objectsParams = {
 }
 
 let touchParams = {
-	objectCenter: { x: 425.0, y: 15.0 },
-	radius: 30,
+	objectCenter: { x: 425.0, y: -15.0 },
+	radius: 50,
 	limits: { min: 0.0, max: 450.0 },
 	mouseDown: {x: 0.0, y: 0.0}
 }
