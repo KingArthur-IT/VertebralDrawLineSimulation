@@ -44585,6 +44585,7 @@
 	}
 
 	function touch_start_handler(e) {
+		e.preventDefault();
 		if (!params.isActive) return;
 		params.isBovieLocked = false;
 		let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
@@ -44636,7 +44637,6 @@
 			touchParams.objectCenter.x = 340.0 + ((bovieObj.rotation.y + 0.1) / 0.2) * 160.0;
 			//touchParams.objectCenter.x += parseInt(touch.pageX) - touchParams.mouseDown.x;
 			touchParams.objectCenter.y += parseInt(touch.pageY) - touchParams.mouseDown.y;
-			console.log(touchParams.objectCenter.x, touchParams.objectCenter.y);
 			touchParams.mouseDown.x = 0.0;
 			touchParams.mouseDown.y = 0.0;
 		}
