@@ -64,10 +64,17 @@
             background: #cccccc;
             display: block;
         }
+        #spot{
+            position: absolute;
+            background-color: rgba(158, 158, 158, 0.6);
+            pointer-events: none;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
+    <!-- <div id="spot"></div> -->
     <!--popup-->
     <input type="text" id="popupTitle" value="Message" class="interface-text" readonly />
     <textarea id="popupText" cols="30" rows="10" class="interface-text" readonly>

@@ -44294,7 +44294,7 @@
 			minY: -6.2,
 		},
 		rotationProps: {
-			step: 0.01,
+			step: 0.015,
 			minXAngle: -18.0 * Math.PI / 180.0,
 			maxXAngle: 18.0 * Math.PI / 180.0,
 		},
@@ -44308,7 +44308,7 @@
 			bovieMtl: 'bovie_pen_01.mtl',
 			scale: new Vector3(2.0, 2.0, 2.0),
 			position: new Vector3(0.0, 2.0, 0.0),
-			rotation: new Vector3(80.0 * Math.PI / 180.0,
+			rotation: new Vector3(83.0 * Math.PI / 180.0,
 				-220.0 * Math.PI / 180.0, 0.0)
 		},
 		line: {
@@ -44329,7 +44329,7 @@
 	};
 
 	let touchParams = {
-		objectCenter: { x: 425.0, y: -15.0 },
+		objectCenter: { x: 425.0, y: 5.0 },
 		radius: 50,
 		limits: { min: 0.0, max: 450.0 },
 		mouseDown: {x: 0.0, y: 0.0}
@@ -44340,6 +44340,11 @@
 			canvas = document.getElementById('canvas');
 			canvas.setAttribute('width', params.sceneWidth);
 			canvas.setAttribute('height', params.sceneHeight);
+
+			// document.getElementById('spot').style.width = `${2 * touchParams.radius}px`;
+			// document.getElementById('spot').style.height = `${2 * touchParams.radius}px`;
+			// document.getElementById('spot').style.top = `${touchParams.objectCenter.y - touchParams.radius}px`;
+			// document.getElementById('spot').style.left = `${touchParams.objectCenter.x - touchParams.radius}px`;
 
 			//scene and camera
 			scene = new Scene();
@@ -44596,6 +44601,7 @@
 					(parseInt(touch.pageY) - touchParams.objectCenter.y) *
 					(parseInt(touch.pageY) - touchParams.objectCenter.y);
 		if (Math.sqrt(dist) < touchParams.radius) {
+			//document.getElementById('spot').style.opacity = `0`;
 			params.isBovieLocked = true;
 			touchParams.mouseDown.x = parseInt(touch.pageX);
 			touchParams.mouseDown.y = parseInt(touch.pageY);
@@ -44639,6 +44645,10 @@
 			touchParams.objectCenter.y += parseInt(touch.pageY) - touchParams.mouseDown.y; 
 			touchParams.mouseDown.x = 0.0;
 			touchParams.mouseDown.y = 0.0;
+
+			// document.getElementById('spot').style.top = `${touchParams.objectCenter.y - touchParams.radius}px`;
+			// document.getElementById('spot').style.left = `${touchParams.objectCenter.x - touchParams.radius}px`;
+			// document.getElementById('spot').style.opacity = `1`;
 		}
 	}
 
