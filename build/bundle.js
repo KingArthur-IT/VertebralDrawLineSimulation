@@ -44341,10 +44341,10 @@
 			canvas.setAttribute('width', params.sceneWidth);
 			canvas.setAttribute('height', params.sceneHeight);
 
-			// document.getElementById('spot').style.width = `${2 * touchParams.radius}px`;
-			// document.getElementById('spot').style.height = `${2 * touchParams.radius}px`;
-			// document.getElementById('spot').style.top = `${touchParams.objectCenter.y - touchParams.radius}px`;
-			// document.getElementById('spot').style.left = `${touchParams.objectCenter.x - touchParams.radius}px`;
+			document.getElementById('spot').style.width = `${2 * touchParams.radius}px`;
+			document.getElementById('spot').style.height = `${2 * touchParams.radius}px`;
+			document.getElementById('spot').style.top = `${touchParams.objectCenter.y - touchParams.radius}px`;
+			document.getElementById('spot').style.left = `${touchParams.objectCenter.x - touchParams.radius}px`;
 
 			//scene and camera
 			scene = new Scene();
@@ -44584,6 +44584,9 @@
 		document.getElementById('popupTitle').style.display = 'none';
 		document.getElementById('popupText').style.display = 'none';
 		popupBtn.style.display = 'none';
+		document.getElementById('spot').style.top = `${touchParams.objectCenter.y - touchParams.radius}px`;
+		document.getElementById('spot').style.left = `${touchParams.objectCenter.x - touchParams.radius}px`;
+		document.getElementById('spot').classList.remove('d-none');
 		if (!params.isSuccess) {
 			onMouseDown();
 		}
@@ -44601,7 +44604,7 @@
 					(parseInt(touch.pageY) - touchParams.objectCenter.y) *
 					(parseInt(touch.pageY) - touchParams.objectCenter.y);
 		if (Math.sqrt(dist) < touchParams.radius) {
-			//document.getElementById('spot').style.opacity = `0`;
+			document.getElementById('spot').classList.add('d-none');
 			params.isBovieLocked = true;
 			touchParams.mouseDown.x = parseInt(touch.pageX);
 			touchParams.mouseDown.y = parseInt(touch.pageY);
@@ -44641,14 +44644,10 @@
 			CheckDrawedLine();
 			params.isBovieLocked = false;
 			touchParams.objectCenter.x = 340.0 + ((bovieObj.rotation.y + 0.1) / 0.2) * 160.0;
-			//touchParams.objectCenter.x += parseInt(touch.pageX) - touchParams.mouseDown.x;
-			touchParams.objectCenter.y += parseInt(touch.pageY) - touchParams.mouseDown.y; 
+			// touchParams.objectCenter.y += parseInt(touch.pageY) - touchParams.mouseDown.y; 
+			touchParams.objectCenter.y = parseInt(touch.pageY); 
 			touchParams.mouseDown.x = 0.0;
 			touchParams.mouseDown.y = 0.0;
-
-			// document.getElementById('spot').style.top = `${touchParams.objectCenter.y - touchParams.radius}px`;
-			// document.getElementById('spot').style.left = `${touchParams.objectCenter.x - touchParams.radius}px`;
-			// document.getElementById('spot').style.opacity = `1`;
 		}
 	}
 
