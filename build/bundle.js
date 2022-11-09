@@ -44289,7 +44289,7 @@
 		isActive: false,
 		isSuccess: undefined,
 		positionProps: {
-			step: 0.1,
+			step: 0.2,
 			maxY: 0.0,
 			minY: -6.2,
 		},
@@ -44462,7 +44462,6 @@
 					currentLineLimits.lower.bottom = bovieObj.position.y;
 				}
 		}
-		
 		//line
 		scene.remove(upperLine);
 		scene.remove(lowerLine);
