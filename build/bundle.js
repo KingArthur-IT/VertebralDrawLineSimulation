@@ -44289,7 +44289,7 @@
 		isActive: false,
 		isSuccess: undefined,
 		positionProps: {
-			step: 0.2,
+			step: 0.15,
 			maxY: 0.0,
 			minY: -6.2,
 		},
